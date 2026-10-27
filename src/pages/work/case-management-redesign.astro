@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CaseStudyDeck from '../../components/case-study/CaseStudyDeck';
+---
+
+<BaseLayout
+  title="委刊管理案例頁 Redesign — Thomas Sak"
+  description="委刊管理系統案例頁的全新設計版本。"
+>
+  <main id="main" class="case-redesign engineering-case">
+    <CaseStudyDeck homeHref={import.meta.env.BASE_URL} client:only="react" />
+  </main>
+</BaseLayout>

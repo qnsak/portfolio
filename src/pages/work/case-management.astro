@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArchitectureExplorer from '../../components/architecture/ArchitectureExplorer';
+const base = import.meta.env.BASE_URL;
+---
+
+<BaseLayout
+  title="委刊管理前端架構探索器 — Thomas Sak"
+  description="互動探索委刊管理前端的頁面、元件、狀態、資料存取與 API 關係。"
+>
+  <main id="main" class="explorer-page explorer-page--case">
+    <header class="explorer-page-header">
+      <div class="explorer-title">
+        <a class="explorer-back" href={`${base}#work`}>← BACK TO WORK</a>
+        <div><h1>Next.js 專案架構互動式說明</h1><p>以委刊管理系統為例，從架構總覽到實際程式碼，在同一頁完整探索。</p></div>
+      </div>
+      <ul class="explorer-features">
+        <li><span>01</span><div><strong>六層分工</strong><small>由下往上理解責任</small></div></li>
+        <li><span>02</span><div><strong>互動架構圖</strong><small>點擊節點查看細節</small></div></li>
+        <li><span>03</span><div><strong>流程導覽</strong><small>切換不同情境</small></div></li>
+        <li><span>04</span><div><strong>實際程式碼</strong><small>對照專案內容</small></div></li>
+      </ul>
+    </header>
+
+    <section class="explorer-overview">
+      <div class="overview-heading"><span>01</span><div><h2>單頁整體畫面</h2><p>架構總覽、流程、程式碼與設計問題都在同一頁中完成。</p></div></div>
+      <ArchitectureExplorer client:only="react" />
+    </section>
+
+    <section class="case-summary-grid">
+      <article class="summary-card summary-card--flow">
+        <header><span>02</span><div><h2>委刊列表</h2><p>從使用者操作到後端 API</p></div></header>
+        <ol><li><b>1</b>進入委刊列表頁</li><li><b>2</b>填寫搜尋條件</li><li><b>3</b>轉換成查詢參數</li><li><b>4</b>透過 Hook 取得資料</li><li><b>5</b>顯示在表格中</li></ol>
+      </article>
+
+      <article class="summary-card summary-card--code">
+        <header><span>03</span><div><h2>程式碼對照</h2><p>分層實作與真實檔案</p></div></header>
+        <nav><span>Pages</span><span>Components</span><span class="is-active">Hooks</span><span>Services</span></nav>
+        <pre><code>{`useQuery({
+  queryKey: ['campaign_list', filter, page, perPage],
+  queryFn: () => readList(filter, page, perPage),
+  staleTime: 500,
+})`}</code></pre>
+      </article>
+
+      <article class="summary-card summary-card--issues">
+        <header><span>04</span><div><h2>設計問題</h2><p>目前沒有完全照分層走的地方</p></div></header>
+        <ol><li><b>1</b><span>QueryClient 建了兩個</span></li><li><b>2</b><span>Context 反向依賴 Component</span></li><li><b>3</b><span>頁面承擔資料合併</span></li><li><b>4</b><span>Singleton 有兩種寫法</span></li><li><b>5</b><span>錯誤處理重複</span></li></ol>
+      </article>
+
+      <article class="summary-card summary-card--sequence">
+        <header><span>05</span><div><h2>新增功能</h2><p>按照責任邊界逐步完成</p></div></header>
+        <ol><li><b>1</b><span>Types / Enums</span></li><li><b>2</b><span>Services</span></li><li><b>3</b><span>Hooks</span></li><li><b>4</b><span>Domains <em>Optional</em></span></li><li><b>5</b><span>Components</span></li><li><b>6</b><span>Pages</span></li><li><b>7</b><span>Routes / Permission</span></li></ol>
+      </article>
+    </section>
+  </main>
+</BaseLayout>

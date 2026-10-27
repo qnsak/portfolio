@@ -1,0 +1,169 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ArrowIcon from '../components/ArrowIcon.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+
+const base = import.meta.env.BASE_URL;
+
+const projects = [
+  {
+    number: '01',
+    title: '委刊管理系統的前端架構重整',
+    summary: '面對涵蓋案件建立、送審、權限、Cue、合約與財務的複雜流程，重新劃分前端各層責任，讓資料流與商業規則更容易理解、測試與擴充。',
+    tags: ['Next.js', 'React Query', 'Clean Architecture'],
+    href: `${base}work/case-management-redesign`,
+  },
+];
+
+const experiences = [
+  {
+    period: '2026.06 — 09',
+    company: '一零四資訊科技',
+    department: '求職工程部',
+    role: 'Senior Backend Engineer',
+    note: '參與微服務架構下的 BFF 開發，依照前端產品需求整合下游服務資料，支援求職產品快速迭代。',
+    highlights: [
+      '在既有微服務架構中開發與維護 BFF 功能',
+      '整合下游服務資料，轉換為前端需要的介面',
+      '釐清前後端資料契約與服務邊界',
+    ],
+    tags: ['PHP', 'Laravel', 'BFF', 'Microservices', 'ELK'],
+  },
+  {
+    period: '2023.11 — 2026.06',
+    company: '傑思愛德威媒體',
+    department: '開發部',
+    role: 'Senior Backend Engineer',
+    note: '主導企業內部系統的架構設計與流程改善，工作涵蓋需求分析、前後端開發、測試、自動化部署與 AI 協作規範。',
+    highlights: [
+      '設計以 JWT 為核心的 SSO，依 AAA 模型拆分認證、授權與稽核責任',
+      '主導案件管理系統架構重構，重新劃分前端責任邊界，並以 Template Method Pattern 重整後端驗證流程',
+      '建立 Jenkins CI/CD，整合 Unit、API、E2E 測試與 Slack 部署通知',
+      '參與 Laravel SDK 開發，負責 Swagger 文件生成與 Request 驗證規則標準化',
+      '建立 Feature Map、C4、Ubiquitous Language 與 Agent Rules，改善 AI 協作修改的可追蹤性',
+    ],
+    tags: ['Laravel', 'Python', 'React', 'Next.js', 'Docker', 'Jenkins'],
+    caseHref: `${base}work/case-management-redesign`,
+    caseLabel: '查看案件管理系統案例',
+  },
+  {
+    period: '2018.07 — 2023.11',
+    company: '智林國際',
+    department: '開發部',
+    role: 'Senior Application System Engineer',
+    note: '負責票務管理、線上售票與現場通路的全端開發，累積交易流程、金流、票券與實體設備整合經驗。',
+    highlights: [
+      '參與票務管理系統架構與資料庫設計，開發前後台及 API',
+      '建立 LINE LIFF 售票流程，整合 LINE Pay、第三方登入與分票機制',
+      '主導 Vue 2 升級 Vue 3，重整前端架構並改善連座選位體驗',
+      '開發 ibon 取票與現場售票系統，串接售票設備與悠遊卡 API',
+    ],
+    tags: ['Laravel', 'Vue', 'LINE LIFF', 'Payment', 'Docker'],
+  },
+  {
+    period: '2016.09 — 2018.04',
+    company: '大弘信息',
+    department: '',
+    role: 'PHP Engineer',
+    note: '負責電商平台功能與資料蒐集系統開發，建立網站前後端與資料庫實務基礎。',
+    highlights: [
+      '開發活動設定與購物車優惠機制，支援電商促銷需求',
+      '建立資料蒐集爬蟲，處理資料整理、儲存與維運',
+    ],
+    tags: ['PHP', 'MySQL', 'JavaScript'],
+  },
+];
+---
+
+<BaseLayout>
+  <div class="site-shell">
+    <aside class="identity-panel">
+      <div class="identity-copy">
+        <h1>謝起念 <span>Thomas Sak</span></h1>
+        <p class="manifesto">全端工程師</p>
+        <p class="intro">不侷限於前端或後端，以全端視角與開放的心態理解問題、選擇合適的技術，也持續探索如何讓 AI 成為可靠的開發協作者。</p>
+      </div>
+
+      <nav class="section-nav" aria-label="頁面段落">
+        <a data-nav="about" href="#about"><span>01</span>關於</a>
+        <a data-nav="experience" href="#experience"><span>02</span>工作經歷</a>
+        <a data-nav="capabilities" href="#capabilities"><span>03</span>專業能力</a>
+        <a data-nav="work" href="#work"><span>04</span>案例</a>
+      </nav>
+
+      <footer class="social-links">
+        <a href="https://github.com/qnsak" target="_blank" rel="noreferrer">GitHub</a>
+        <a href="https://vocus.cc/salon/69f82373fd897800017107a9" target="_blank" rel="noreferrer">Blog</a>
+      </footer>
+    </aside>
+
+    <main id="main" class="content-panel">
+      <section id="about" data-section class="content-section about-section">
+        <SectionHeading number="01" title="ABOUT" />
+        <div class="body-copy">
+          <p>嗨！我是謝起念（Sak Qi Nian / Thomas Sak），一名喜歡在實作中學習的<strong>全端工程師</strong>。</p>
+          <p>目前主要關注 <strong>AI Systems 與 LLM 應用開發</strong>。過去做過爬蟲、電商、票務平台和企業 ERP 系統，從需求分析、系統設計、開發、測試到 CI/CD 都有參與。</p>
+          <p>比起單純寫程式，我其實更喜歡<strong>理解需求和解決問題</strong>。跟電腦溝通相對簡單，只要搞懂規則和原理，就能讓它照著預期運作；但跟人溝通不一樣，每個人的背景和想法都不同，有時光是釐清真正的需求，就得花上不少時間。</p>
+          <p>過程不一定順利，但能透過討論找到問題，再用技術把事情解決，那種感覺真的很不錯。</p>
+          <p>最近也經常使用 <strong>Codex、Claude Code</strong> 等 AI 工具協助開發，持續摸索 AI 能如何改變軟體開發的方式。</p>
+          <p>對我來說，<strong>工程師的價值不只是把程式寫出來，而是理解問題，然後用技術做出真正有價值的東西。</strong></p>
+        </div>
+      </section>
+
+      <section id="experience" data-section class="content-section">
+        <SectionHeading number="02" title="EXPERIENCE" />
+        <div class="timeline">
+          {experiences.map((item) => (
+            <article>
+              <p class="period">{item.period}</p>
+              <div class="experience-detail">
+                <h3>{item.company}{item.department && <span> · {item.department}</span>}</h3>
+                <p class="role">{item.role}</p>
+                <p>{item.note}</p>
+                {item.highlights && (
+                  <ul class="experience-highlights">
+                    {item.highlights.map((highlight) => <li>{highlight}</li>)}
+                  </ul>
+                )}
+                {item.caseHref && <a class="experience-case-link" href={item.caseHref}>{item.caseLabel} <ArrowIcon /></a>}
+                <ul class="experience-tags" aria-label="使用技術">
+                  {item.tags.map((tag) => <li>{tag}</li>)}
+                </ul>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section id="capabilities" data-section class="content-section">
+        <SectionHeading number="03" title="CAPABILITIES" />
+        <div class="capability-list">
+          <article><div><span class="capability-eyebrow">ARCHITECTURE</span><h3>系統分析與架構設計</h3><p>從需求與業務流程釐清系統邊界、核心規則和資料流，設計能持續演進的系統結構。</p><ul><li>Requirement Analysis</li><li>Clean Architecture</li><li>DDD</li><li>C4 Model</li></ul></div></article>
+          <article><div><span class="capability-eyebrow">FULL STACK</span><h3>全端產品開發</h3><p>跨越前端與後端完成商業系統，從資料模型、API 到互動介面整體思考。</p><ul><li>PHP / Laravel</li><li>Python / FastAPI</li><li>React / Next.js</li><li>Vue / Nuxt</li></ul></div></article>
+          <article><div><span class="capability-eyebrow">DELIVERY</span><h3>工程品質與交付</h3><p>建立測試、自動化部署與開發規範，降低系統變更與交付過程中的風險。</p><ul><li>Unit / API / E2E</li><li>Docker</li><li>Jenkins</li><li>CI/CD</li></ul></div></article>
+          <article><div><span class="capability-eyebrow">AI COLLABORATION</span><h3>AI 協作開發</h3><p>透過結構化文件與上下文管理，提升 AI 輔助開發的穩定性、可追蹤性與可維護性。</p><ul><li>Codex</li><li>Claude Code</li></ul></div></article>
+        </div>
+      </section>
+
+      <section id="work" data-section class="content-section">
+        <SectionHeading number="04" title="CASES" />
+        <div class="project-list">
+          {projects.map((project, index) => (
+            <a class:list={['project-card', { 'is-disabled': project.href === '#' }]} href={project.href}>
+              <div class="project-meta"><span>CASE {project.number}</span></div>
+              <div class="project-title-row"><h3>{project.title}</h3><ArrowIcon /></div>
+              <p>{project.summary}</p>
+              <ul aria-label="使用技術">{project.tags.map((tag) => <li>{tag}</li>)}</ul>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <footer class="site-credit">
+        <span>Design inspired by</span>
+        <a href="https://brittanychiang.com/" target="_blank" rel="noreferrer">Brittany Chiang</a>
+      </footer>
+
+    </main>
+  </div>
+</BaseLayout>
