@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout
+  title="案件商業規則驗證設計 — Thomas Sak"
+  description="以案件管理系統為例，說明不同狀態與操作如何套用商業規則驗證。"
+>
+  <main class="verification-case">
+    <header class="verification-topbar">
+      <nav class="verification-header-links" aria-label="頁面連結">
+        <a href={base}><span aria-hidden="true">←</span> 首頁</a>
+      </nav>
+      <span>BACKEND ENGINEERING / CASE 03</span>
+      <span class="verification-count">01 <i /> 04</span>
+    </header>
+
+    <section class="verification-intro" aria-labelledby="verification-title">
+      <div class="verification-copy">
+        <p class="verification-kicker"><span aria-hidden="true">◇</span> CASE STATUS TRANSITION</p>
+        <h1 id="verification-title">案件資料驗證</h1>
+        <p class="verification-lede">案件每次進行狀態轉換，都必須先檢查資料。若資料不符合預期，狀態轉換就會失敗；檢查內容則依轉換的狀態而不同。</p>
+        <a class="verification-article-link" href="https://hackmd.io/@qns/B1WG1SAige" target="_blank" rel="noreferrer">
+          延伸閱讀：驗證規則設計文章 <span aria-hidden="true">↗</span>
+        </a>
+        <div class="verification-question"><span>設計問題</span><strong>如何讓規則容易找到、修改，也能獨立測試？</strong></div>
+      </div>
+
+      <div class="verification-visual" aria-label="六種案件狀態，以及送審轉為執行中的資料檢查示意">
+        <div class="status-map-heading"><span>案件狀態</span><span>依狀態轉換套用檢查</span></div>
+        <div class="status-catalog">
+          <span>草稿</span><span>送審</span><span>執行中</span>
+          <span>終止</span><span>結案</span><span>異常</span>
+        </div>
+        <div class="transition-example"><span>轉換範例</span><strong>送審</strong><i aria-hidden="true">→</i><strong>執行中</strong></div>
+        <div class="transition-check">
+          <div class="transition-check-title"><span aria-hidden="true">↳</span><strong>送審 → 執行中</strong><span>轉換前檢查</span></div>
+          <div class="rule-tags">
+            <span><i aria-hidden="true">✓</i> 案件收益 &gt; 0</span>
+            <span><i aria-hidden="true">✓</i> PM 已完成審核</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="verification-context" aria-label="設計挑戰摘要">
+      <article><span class="context-index">01 / PAIN POINT</span><strong>檢查散落在流程裡</strong><p>Controller 與 Service 各自處理狀態及資料條件。</p></article>
+      <article><span class="context-index">02 / RULES</span><strong>條件有共用也有差異</strong><p>例如案件收益與 PM 審核，會依操作流程判斷。</p></article>
+      <article><span class="context-index">03 / GOAL</span><strong>規則需要容易演進</strong><p>集中描述檢查條件，降低修改與測試的成本。</p></article>
+    </section>
+
+    <footer class="verification-next"><span><b aria-hidden="true">↳</b> 下一步：看驗證規則如何集中組織</span><a href={`${base}work/campaign-verification-design/`}>下一頁 <b aria-hidden="true">→</b></a></footer>
+  </main>
+</BaseLayout>

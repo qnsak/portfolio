@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout
+  title="案件商業規則驗證設計 — 設計痛點 — Thomas Sak"
+  description="說明案件狀態檢查散落在流程、條件重複與難以單獨測試的問題。"
+>
+  <main class="verification-case verification-case--design">
+    <header class="verification-topbar">
+      <a href={base}><span aria-hidden="true">←</span> 首頁</a>
+      <span>BACKEND ENGINEERING / CASE 03</span>
+      <span class="verification-count">02 <i /> 04</span>
+    </header>
+
+    <section class="problem-heading" aria-labelledby="verification-design-title">
+      <p class="verification-kicker">02 / 04 · THE PROBLEM</p>
+      <h1 id="verification-design-title">驗證規則散落各層，<em>維護困難。</em></h1>
+      <p>狀態轉換的檢查分散在 Controller 與 Service，相同條件重複出現。當規則改變時，需要逐一追查相關流程，也難以獨立測試。</p>
+    </section>
+
+    <section class="problem-architecture" aria-labelledby="problem-diagram-title">
+      <header class="problem-diagram-header"><div><span>PROBLEM ARCHITECTURE DIAGRAM</span><h2 id="problem-diagram-title">相似的狀態檢查，出現在不同模組</h2></div><span class="diagram-concept-label">概念示意</span></header>
+      <div class="problem-modules">
+        <article class="problem-module">
+          <header><span>MODULE 01</span><strong>Controller</strong></header>
+          <div class="module-stage"><span>BUSINESS FLOW</span><strong>接收狀態轉換請求</strong></div>
+          <div class="module-arrow" aria-hidden="true">↓</div>
+          <div class="module-stage module-stage--check"><span>STATUS CHECK</span><strong>檢查案件狀態</strong><code>if (執行中)</code></div>
+          <div class="module-arrow" aria-hidden="true">↓</div>
+          <div class="module-stage"><span>CONTINUE</span><strong>呼叫後續操作</strong></div>
+        </article>
+        <article class="problem-module">
+          <header><span>MODULE 02</span><strong>Service A</strong></header>
+          <div class="module-stage"><span>BUSINESS FLOW</span><strong>處理案件資料</strong></div>
+          <div class="module-arrow" aria-hidden="true">↓</div>
+          <div class="module-stage module-stage--check"><span>STATUS CHECK</span><strong>檢查案件狀態</strong><code>if (執行中)</code></div>
+          <div class="module-arrow" aria-hidden="true">↓</div>
+          <div class="module-stage"><span>CONTINUE</span><strong>更新相關資料</strong></div>
+        </article>
+        <article class="problem-module">
+          <header><span>MODULE 03</span><strong>Service B</strong></header>
+          <div class="module-stage"><span>BUSINESS FLOW</span><strong>執行業務操作</strong></div>
+          <div class="module-arrow" aria-hidden="true">↓</div>
+          <div class="module-stage module-stage--check"><span>STATUS CHECK</span><strong>檢查案件狀態</strong><code>if (執行中)</code></div>
+          <div class="module-arrow" aria-hidden="true">↓</div>
+          <div class="module-stage"><span>CONTINUE</span><strong>完成各自處理</strong></div>
+        </article>
+      </div>
+      <div class="problem-correspondence"><span></span><strong>相似條件散落於多處，修改時需要逐一追查</strong><span></span></div>
+      <footer class="problem-consequences"><span><b>01</b> 修改範圍不易掌握</span><span><b>02</b> 規則可能逐漸不一致</span><span><b>03</b> 難以單獨測試</span></footer>
+      <p class="diagram-footnote">圖中模組各自代表獨立流程；虛線只表示檢查條件相似，不代表模組彼此呼叫或具有固定執行順序。</p>
+    </section>
+
+    <footer class="verification-next"><a href={`${base}work/campaign-verification/`}><b aria-hidden="true">←</b> 上一頁</a><span>設計痛點 <b aria-hidden="true">02 / 04</b></span><a href={`${base}work/campaign-verification-architecture/`}>下一頁 <b aria-hidden="true">→</b></a></footer>
+  </main>
+</BaseLayout>

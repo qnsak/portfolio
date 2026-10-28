@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout
+  title="LLM 產品搜尋操作影片 — 案例 03"
+  description="透過實際操作影片，展示在既有產品搜尋服務中導入 LLM 的使用流程。"
+>
+  <main class="llm-case llm-case--demo">
+    <header class="llm-topbar">
+      <a href={base}><span aria-hidden="true">←</span> 首頁</a>
+      <span>AI ENGINEERING / CASE 01</span>
+      <span class="llm-count">03 <i /> 04</span>
+    </header>
+
+    <section class="llm-demo-heading" aria-labelledby="llm-demo-title">
+      <p class="llm-kicker"><span aria-hidden="true">◇</span> 03 / PRODUCT WALKTHROUGH</p>
+      <h1 id="llm-demo-title">從需求描述，<em>到產品搜尋結果</em></h1>
+      <p>以下是 LLM 搜尋功能的操作影片，展示使用者如何以自然語言提出需求，並在既有產品服務中瀏覽搜尋結果。</p>
+    </section>
+
+    <section class="llm-video-section" aria-label="LLM 產品搜尋操作影片">
+      <div class="llm-video-frame">
+        <video controls playsinline preload="metadata" aria-label="LLM 產品搜尋功能操作影片">
+          <source src={`${base}videos/llm-product-search-demo.mp4`} type="video/mp4" />
+          您的瀏覽器不支援 HTML 影片播放。
+        </video>
+      </div>
+      <div class="llm-video-caption">
+        <span>PRODUCT SEARCH / DEMO RECORDING</span>
+        <span>操作影片</span>
+      </div>
+    </section>
+
+    <footer class="llm-next">
+      <a href={`${base}work/llm-product-search-problem/`}><b aria-hidden="true">←</b> 上一頁</a>
+      <span class="llm-next-hint">下一步：回顧資料準備、搜尋流程與工程取捨</span>
+      <a href={`${base}work/llm-product-search-design/`}>下一頁 <b aria-hidden="true">→</b></a>
+    </footer>
+  </main>
+</BaseLayout>

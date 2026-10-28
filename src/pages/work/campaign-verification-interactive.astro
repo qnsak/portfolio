@@ -1,0 +1,347 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout
+  title="案件商業規則驗證設計 — 擴充能力示範 — Thomas Sak"
+  description="透過互動式概念模擬，觀察宣告式驗證規則如何被發現、收集與執行。"
+>
+  <main class="verification-case verification-case--interactive extensibility-page">
+    <header class="verification-topbar">
+      <a href={base}><span aria-hidden="true">←</span> 首頁</a>
+      <span>BACKEND ENGINEERING / CASE 03</span>
+      <span class="verification-count">04 <i /> 04</span>
+    </header>
+
+    <section class="extensibility-heading">
+      <div>
+        <p class="verification-kicker">04 · EXTENSIBILITY DEMO</p>
+        <h1>新增一條規則，<em>不必修改主流程。</em></h1>
+        <p>透過互動示範，觀察 PHP 8 Attribute 如何宣告驗證規則，以及共用驗證器如何自動發現並執行。</p>
+      </div>
+      <span class="concept-badge">互動示範・概念模擬</span>
+    </section>
+
+    <section class="extensibility-demo" aria-label="宣告驗證規則並觀察共用驗證器的概念示範">
+      <article class="rule-definitions">
+        <header class="demo-panel-heading">
+          <div><span>RULE DEFINITIONS</span><h2>驗證規則定義</h2></div>
+          <span class="declared-count"><b id="declared-count">2</b><small>已宣告</small></span>
+        </header>
+        <p class="demo-panel-note">以下兩個方法名稱取自專案現有規則；方法內容略。</p>
+        <ul class="declared-rules" id="declared-rules" aria-live="polite">
+          <li><span class="attribute-tag">#[Term]</span><code>is_tax_difference_reasonable()</code><small>專案既有</small></li>
+          <li><span class="attribute-tag">#[Term]</span><code>is_cue_month_available()</code><small>專案既有</small></li>
+        </ul>
+        <div class="add-rule-example" id="add-rule-example" hidden>
+          <span>概念新增</span><code>#[Term] validateBudget()</code>
+          <small>概念方法名稱；僅更新本頁示範狀態，不會修改 PHP 原始碼。</small>
+        </div>
+        <button class="demo-button demo-button--add" id="add-demo-rule" type="button"><b aria-hidden="true">＋</b> 新增示範規則</button>
+      </article>
+
+      <div class="demo-relation" aria-label="Reflection 自動發現帶有 Term 標記的規則">
+        <span>PHP Reflection</span><i aria-hidden="true">→</i><small>發現標記方法</small>
+      </div>
+
+      <article class="verification-engine">
+        <header class="demo-panel-heading">
+          <div><span>VERIFICATION ENGINE</span><h2>規則發現與執行</h2></div>
+          <span class="candidate-count"><b id="candidate-count">2</b><small>可發現</small></span>
+        </header>
+        <div class="engine-statebar"><span>已發現</span><strong id="discovered-count">尚未掃描</strong><i></i><span>待執行</span><strong id="collected-count">—</strong></div>
+        <div class="discoverable-set"><span>可發現集合 · 下次 run() 掃描</span><ul id="discoverable-rules"><li><code>is_tax_difference_reasonable()</code><span>可發現</span></li><li><code>is_cue_month_available()</code><span>可發現</span></li></ul></div>
+        <p class="engine-boundary">新增規則時，Controller 與共用驗證器保持不變。</p>
+        <ol class="engine-steps" aria-label="驗證器處理步驟">
+          <li data-step="discover"><b>01</b><span><strong>DISCOVER</strong><small>Reflection 掃描 #[Term]</small></span><i>○</i></li>
+          <li data-step="collect"><b>02</b><span><strong>COLLECT</strong><small>收集符合標記的規則</small></span><i>○</i></li>
+          <li data-step="execute"><b>03</b><span><strong>EXECUTE</strong><small>統一呼叫收集到的方法</small></span><i>○</i></li>
+          <li data-step="result"><b>04</b><span><strong>RESULT</strong><small>呈現本次展示結果</small></span><i>○</i></li>
+        </ol>
+        <div class="execution-results" id="execution-results" aria-live="polite">
+          <span class="execution-placeholder">尚未執行。新增規則後，可觀察可發現數量如何改變。</span>
+        </div>
+        <div class="engine-actions">
+          <button class="demo-button demo-button--run" id="run-demo" type="button"><span aria-hidden="true">▶</span> 執行展示</button>
+          <button class="demo-button demo-button--reset" id="reset-demo" type="button">重設示範</button>
+        </div>
+      </article>
+    </section>
+    <p class="simulation-note">概念模擬：互動僅更新瀏覽器中的示範狀態，不會執行 PHP Reflection 或呼叫後端。規則列出的視覺順序不代表 Reflection 保證的執行順序。</p>
+
+    <section class="before-after-section" aria-labelledby="before-after-title">
+      <h2 id="before-after-title">從修改既有流程，變成擴充驗證規則。</h2>
+      <div class="before-after-grid">
+        <article class="change-card change-card--before">
+          <header><span>BEFORE</span><strong>原本的方式</strong></header>
+          <p>新增一條業務驗證條件</p>
+          <ol><li>尋找相關 Controller / Service</li><li>修改既有條件判斷</li><li>檢查其他流程是否也需修改</li><li>執行相關回歸測試</li></ol>
+          <footer>驗證規則分散，修改範圍較難掌握。</footer>
+        </article>
+        <article class="change-card change-card--after">
+          <header><span>AFTER</span><strong>新架構</strong></header>
+          <p>新增一條業務驗證條件</p>
+          <ol><li>在對應驗證類別新增方法</li><li>使用 <code>#[Term]</code> 標記規則</li><li>由既有機制發現並納入執行</li><li>獨立測試新規則，並保留必要回歸測試</li></ol>
+          <footer>一般新增規則不需修改 Controller 或共用驗證引擎。</footer>
+        </article>
+      </div>
+    </section>
+
+    <section class="case-conclusion">
+      <h2>讓新增規則成為擴充，<em>而不是修改。</em></h2>
+      <p>透過宣告式標記與自動發現機制，將驗證規則從主要業務流程中分離，降低擴充時對既有程式碼的依賴。</p>
+    </section>
+
+    <footer class="verification-next"><a href={`${base}work/campaign-verification-architecture/`}><b aria-hidden="true">←</b> 上一頁</a><span>互動示範 <b aria-hidden="true">04 / 04</b></span><button class="next-page-disabled" type="button" disabled aria-disabled="true">下一頁 <b aria-hidden="true">→</b></button></footer>
+  </main>
+
+  <script>
+    type DemoRule = { id: string; method: string; source: 'project' | 'demo' };
+
+    const initialRules: DemoRule[] = [
+      { id: 'tax', method: 'is_tax_difference_reasonable()', source: 'project' },
+      { id: 'total', method: 'is_cue_month_available()', source: 'project' },
+    ];
+    let rules = [...initialRules];
+    let isRunning = false;
+
+    const declaredList = document.querySelector<HTMLUListElement>('#declared-rules');
+    const discoverableList = document.querySelector<HTMLUListElement>('#discoverable-rules');
+    const declaredCount = document.querySelector<HTMLElement>('#declared-count');
+    const candidateCount = document.querySelector<HTMLElement>('#candidate-count');
+    const discoveredCount = document.querySelector<HTMLElement>('#discovered-count');
+    const collectedCount = document.querySelector<HTMLElement>('#collected-count');
+    const addButton = document.querySelector<HTMLButtonElement>('#add-demo-rule');
+    const addExample = document.querySelector<HTMLElement>('#add-rule-example');
+    const runButton = document.querySelector<HTMLButtonElement>('#run-demo');
+    const resetButton = document.querySelector<HTMLButtonElement>('#reset-demo');
+    const resultList = document.querySelector<HTMLElement>('#execution-results');
+    const stepItems = [...document.querySelectorAll<HTMLElement>('.engine-steps li')];
+
+    const renderRules = () => {
+      if (!declaredList || !discoverableList || !declaredCount || !candidateCount) return;
+      const rows = rules.map((rule) => `
+        <li class="${rule.source === 'demo' ? 'is-new-rule' : ''}" data-rule-id="${rule.id}">
+          <span class="attribute-tag">#[Term]</span>
+          <code>${rule.method}</code>
+          <small>${rule.source === 'demo' ? '示範新增' : '專案既有'}</small>
+        </li>`).join('');
+      declaredList.innerHTML = rows;
+      discoverableList.innerHTML = rules.map((rule) => `<li class="${rule.source === 'demo' ? 'is-new-rule' : ''}"><code>${rule.method}</code><span>${rule.source === 'demo' ? '新增' : '可發現'}</span></li>`).join('');
+      declaredCount.textContent = String(rules.length);
+      candidateCount.textContent = String(rules.length);
+    };
+
+    const resetEngineDisplay = () => {
+      const hasPreviousScan = Boolean(discoveredCount?.textContent?.endsWith('條'));
+      if (discoveredCount) discoveredCount.textContent = hasPreviousScan ? '尚未重新掃描' : '尚未掃描';
+      if (collectedCount) collectedCount.textContent = '—';
+      if (resultList) resultList.innerHTML = `<span class="execution-placeholder">${hasPreviousScan ? '新增規則已加入可發現集合；需重新執行掃描。' : '規則已加入可發現集合；尚未執行掃描。'}</span>`;
+      stepItems.forEach((item) => { delete item.dataset.state; const icon = item.querySelector<HTMLElement>('i'); if (icon) icon.textContent = '○'; });
+    };
+
+    const setStepState = (step: string, state: 'active' | 'done') => {
+      const item = stepItems.find((entry) => entry.dataset.step === step);
+      if (!item) return;
+      item.dataset.state = state;
+      const icon = item.querySelector<HTMLElement>('i');
+      if (icon) icon.textContent = state === 'done' ? '✓' : '◌';
+    };
+
+    const wait = (duration = 220) => new Promise((resolve) => window.setTimeout(resolve, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : duration));
+
+    addButton?.addEventListener('click', () => {
+      if (isRunning || rules.some((rule) => rule.source === 'demo')) return;
+      rules = [...rules, { id: 'budget-demo', method: 'validateBudget()', source: 'demo' }];
+      renderRules();
+      if (addExample) addExample.hidden = false;
+      resetEngineDisplay();
+      addButton.disabled = true;
+      addButton.innerHTML = '<b aria-hidden="true">✓</b> 示範規則已新增';
+      addButton.setAttribute('aria-label', '示範規則已新增，點擊重設可以再次操作');
+    });
+
+    runButton?.addEventListener('click', async () => {
+      if (isRunning || !discoveredCount || !collectedCount || !resultList || !runButton) return;
+      isRunning = true;
+      runButton.disabled = true;
+      if (addButton) addButton.disabled = true;
+      if (resetButton) resetButton.disabled = true;
+      runButton.textContent = '展示執行中…';
+      discoveredCount.textContent = '掃描中';
+      collectedCount.textContent = '—';
+      resultList.innerHTML = '<span class="execution-placeholder">正在展示規則探索流程…</span>';
+      stepItems.forEach((item) => { delete item.dataset.state; const icon = item.querySelector<HTMLElement>('i'); if (icon) icon.textContent = '○'; });
+
+      setStepState('discover', 'active');
+      await wait();
+      discoveredCount.textContent = `${rules.length} 條`;
+      setStepState('discover', 'done');
+
+      setStepState('collect', 'active');
+      await wait();
+      collectedCount.textContent = `${rules.length} 條`;
+      setStepState('collect', 'done');
+
+      setStepState('execute', 'active');
+      resultList.innerHTML = `<ul class="simulated-result-list">${rules.map((rule) => `<li><span>›</span><code>${rule.method}</code><small>${rule.source === 'demo' ? '新增規則・概念展示' : '已納入概念展示'}</small></li>`).join('')}</ul>`;
+      await wait(Math.min(160 + rules.length * 100, 460));
+      setStepState('execute', 'done');
+
+      setStepState('result', 'active');
+      resultList.insertAdjacentHTML('beforeend', `<p class="simulation-result-summary">概念展示完成 · 共呈現 ${rules.length} 條規則。這不是 PHP 驗證結果。</p>`);
+      setStepState('result', 'done');
+      runButton.disabled = false;
+      runButton.innerHTML = '<span aria-hidden="true">↻</span> 重新執行展示';
+      if (addButton) addButton.disabled = rules.some((rule) => rule.source === 'demo');
+      if (resetButton) resetButton.disabled = false;
+      isRunning = false;
+    });
+
+    resetButton?.addEventListener('click', () => {
+      if (isRunning) return;
+      rules = [...initialRules];
+      renderRules();
+      if (addExample) addExample.hidden = true;
+      if (discoveredCount) discoveredCount.textContent = '尚未掃描';
+      if (collectedCount) collectedCount.textContent = '—';
+      if (resultList) resultList.innerHTML = '<span class="execution-placeholder">尚未執行。新增規則後，可觀察可發現數量如何改變。</span>';
+      stepItems.forEach((item) => { delete item.dataset.state; const icon = item.querySelector<HTMLElement>('i'); if (icon) icon.textContent = '○'; });
+      if (addButton) { addButton.disabled = false; addButton.innerHTML = '<b aria-hidden="true">＋</b> 新增示範規則'; addButton.removeAttribute('aria-label'); }
+      if (runButton) { runButton.disabled = false; runButton.innerHTML = '<span aria-hidden="true">▶</span> 執行展示'; }
+    });
+
+    renderRules();
+  </script>
+</BaseLayout>
+
+<style is:global>
+  .extensibility-page { grid-template-rows: auto auto auto auto auto auto auto; align-content: space-between; }
+  .extensibility-heading, .extensibility-demo, .simulation-note, .before-after-section, .case-conclusion { width: min(100%, 1320px); justify-self: center; }
+  .extensibility-heading { display: flex; justify-content: space-between; align-items: end; gap: 1.5rem; padding: .8rem 0 .7rem; }
+  .extensibility-heading h1 { max-width: 70rem; margin: 0; color: #172033; font-size: clamp(2rem, 3.7vw, 3.3rem); line-height: 1.1; letter-spacing: -.06em; text-wrap: balance; }
+  .extensibility-heading h1 em { color: #2463c5; font-style: normal; }
+  .extensibility-heading > div > p:last-child { max-width: 60rem; margin: .45rem 0 0; color: #5f6d81; font-size: .78rem; line-height: 1.5; }
+  .concept-badge { flex: none; padding: .4rem .6rem; border: 1px solid #ccd7e2; border-radius: 99px; color: #65748a; background: rgba(255,255,255,.72); font-size: .57rem; }
+
+  .extensibility-demo { display: grid; grid-template-columns: minmax(0, 1fr) 7rem minmax(0, 1fr); gap: .6rem; align-items: stretch; }
+  .rule-definitions, .verification-engine { min-width: 0; padding: .8rem; border: 1px solid #b7c6d5; border-radius: .5rem; background: rgba(255,255,255,.9); }
+  .rule-definitions { border-color: #9bb8d8; }
+  .verification-engine { border-color: #a8cdbd; background: rgba(250,253,251,.94); }
+  .demo-panel-heading { display: flex; justify-content: space-between; align-items: center; gap: .6rem; padding-bottom: .5rem; border-bottom: 1px solid #dce4eb; }
+  .demo-panel-heading > div > span { color: #2463c5; font: 700 .58rem/1 var(--mono); letter-spacing: .08em; }
+  .demo-panel-heading h2 { margin: .25rem 0 0; color: #35445a; font-size: .82rem; }
+  .declared-count, .candidate-count { display: grid; justify-items: end; gap: .05rem; }
+  .declared-count b, .candidate-count b { color: #2463c5; font: 700 1.05rem/1 var(--mono); }
+  .candidate-count b { color: #177967; }
+  .declared-count small, .candidate-count small { color: #728096; font-size: .55rem; }
+  .demo-panel-note { margin: .45rem 0; color: #6c7a8d; font-size: .62rem; }
+  .declared-rules { display: grid; gap: .4rem; margin: .45rem 0; padding: 0; list-style: none; }
+  .declared-rules li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: .45rem; align-items: center; padding: .47rem .55rem; border: 1px solid #dce4eb; border-radius: .32rem; background: #fbfcfd; animation: rule-enter .22s ease both; }
+  .attribute-tag { width: fit-content; padding: .2rem .3rem; border: 1px solid #b8ded2; border-radius: .2rem; color: #137965; background: #eff8f4; font: 700 .58rem/1 var(--mono); }
+  .declared-rules code { min-width: 0; color: #3f536d; font-size: .67rem; overflow-wrap: anywhere; }
+  .declared-rules small { color: #6e7c8f; font-size: .54rem; text-align: right; }
+  .declared-rules li.is-new-rule { border-color: #91c5ae; background: #f0f9f4; }
+  .declared-rules li.is-new-rule code { color: #176f5c; }
+  .add-rule-example { display: grid; grid-template-columns: auto 1fr; gap: .25rem .5rem; align-items: center; margin: .45rem 0; padding: .45rem .55rem; border-left: 2px solid #70b195; color: #3d6e5b; background: #f1f9f4; animation: rule-enter .22s ease both; }
+  .add-rule-example[hidden] { display: none; }
+  .add-rule-example > span { color: #3c8064; font: 700 .54rem/1 var(--mono); }
+  .add-rule-example code { color: #276c58; font-size: .63rem; }
+  .add-rule-example small { grid-column: 1 / -1; color: #687e73; font-size: .58rem; }
+  .demo-button { display: inline-flex; justify-content: center; align-items: center; gap: .35rem; min-height: 2rem; padding: .45rem .65rem; border: 1px solid #b9c8d7; border-radius: .3rem; color: #45566e; background: white; font: 700 .66rem/1.2 var(--sans); cursor: pointer; transition: background .16s, border-color .16s, transform .16s; }
+  .demo-button:hover:not(:disabled) { transform: translateY(-1px); }
+  .demo-button:focus-visible { outline: 2px solid #2463c5; outline-offset: 2px; }
+  .demo-button:disabled { cursor: default; opacity: .72; }
+  .demo-button--add { margin-top: .35rem; border-color: #8bb6e4; color: #205eaa; }
+  .demo-button--add:hover:not(:disabled) { background: #f1f7ff; }
+  .demo-button--add b { color: #19806d; font: 700 .9rem/1 var(--mono); }
+  .demo-relation { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: .3rem; color: #60738c; text-align: center; }
+  .demo-relation span { color: #2463c5; font: 700 .58rem/1 var(--mono); }
+  .demo-relation i { color: #4083c7; font: 700 1.25rem/1 var(--mono); font-style: normal; }
+  .demo-relation small { color: #68778d; font-size: .58rem; line-height: 1.35; }
+
+  .engine-statebar { display: flex; flex-wrap: wrap; align-items: baseline; gap: .28rem .4rem; margin: .55rem 0; color: #65776d; font-size: .58rem; }
+  .engine-statebar strong { color: #445d51; font-size: .63rem; }
+  .engine-statebar i { width: 1px; height: .7rem; margin: 0 .2rem; background: #d4dfd8; }
+  .discoverable-set { padding: .38rem .45rem; border: 1px dashed #c3d8cc; border-radius: .28rem; background: #fbfdfb; }
+  .discoverable-set > span { color: #65776d; font-size: .58rem; font-weight: 700; }
+  .discoverable-set ul { display: flex; flex-wrap: wrap; gap: .3rem; margin: .3rem 0 0; padding: 0; list-style: none; }
+  .discoverable-set li { display: flex; align-items: center; gap: .35rem; max-width: 100%; padding: .24rem .35rem; border: 1px solid #dce8e0; border-radius: .22rem; background: white; animation: rule-enter .22s ease both; }
+  .discoverable-set li code { color: #53685d; font-size: .58rem; overflow-wrap: anywhere; }
+  .discoverable-set li span { color: #687e73; font-size: .52rem; }
+  .discoverable-set li.is-new-rule { border-color: #91c5ae; background: #f0f9f4; }
+  .discoverable-set li.is-new-rule code, .discoverable-set li.is-new-rule span { color: #18765e; }
+  .engine-boundary { margin: .35rem 0; padding: .3rem .45rem; border-left: 2px solid #78b197; color: #39725c; background: #f2f8f4; font-size: .58rem; }
+  .engine-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: .35rem; margin: .4rem 0 .55rem; padding: 0; list-style: none; }
+  .engine-steps li { min-width: 0; display: grid; grid-template-columns: auto 1fr; gap: .3rem; align-content: start; padding: .4rem; border: 1px solid #dfe7e2; border-radius: .28rem; background: #fff; transition: border-color .18s, background .18s; }
+  .engine-steps li > b { color: #84928a; font: 700 .54rem/1.3 var(--mono); }
+  .engine-steps li > span { display: grid; gap: .18rem; }
+  .engine-steps li strong { color: #50635a; font: 700 .54rem/1.2 var(--mono); }
+  .engine-steps li small { color: #6f8076; font-size: .55rem; line-height: 1.35; }
+  .engine-steps li > i { grid-column: 2; color: #a2afa8; font: 700 .65rem/1 var(--mono); font-style: normal; }
+  .engine-steps li[data-state="active"] { border-color: #78a9d9; background: #f1f7ff; }
+  .engine-steps li[data-state="active"] > i, .engine-steps li[data-state="active"] strong { color: #2463c5; }
+  .engine-steps li[data-state="done"] { border-color: #91c5ae; background: #f1f9f5; }
+  .engine-steps li[data-state="done"] > i, .engine-steps li[data-state="done"] strong { color: #177967; }
+  .execution-results { min-height: 3.2rem; padding: .45rem .55rem; border: 1px solid #dfe7e2; border-radius: .3rem; background: #fff; }
+  .execution-placeholder { display: block; color: #6e7d74; font-size: .61rem; line-height: 1.5; }
+  .simulated-result-list { display: grid; gap: .3rem; margin: 0; padding: 0; list-style: none; }
+  .simulated-result-list li { display: grid; grid-template-columns: 1rem minmax(0, 1fr) auto; gap: .35rem; align-items: center; padding: .25rem .3rem; border-radius: .2rem; color: #276d5b; background: #f2f9f5; animation: rule-enter .2s ease both; }
+  .simulated-result-list li > span { width: .9rem; height: .9rem; display: grid; place-items: center; border: 1px solid #90c1aa; border-radius: 50%; font-size: .55rem; }
+  .simulated-result-list code { min-width: 0; color: #3d5d50; font-size: .59rem; overflow-wrap: anywhere; }
+  .simulated-result-list small { color: #617b6d; font-size: .53rem; text-align: right; }
+  .simulation-result-summary { margin: .4rem 0 0; color: #5f786d; font-size: .59rem; }
+  .engine-actions { display: flex; justify-content: space-between; gap: .5rem; margin-top: .5rem; }
+  .demo-button--run { border-color: #2463c5; color: white; background: #2463c5; }
+  .demo-button--run:hover:not(:disabled) { background: #174e9f; }
+  .demo-button--reset { border-color: #d5dee7; color: #68778a; }
+  .simulation-note { margin: .3rem auto .5rem; color: #6f7d8e; font-size: .59rem; line-height: 1.45; }
+
+  .before-after-section { padding-top: .35rem; }
+  .before-after-section > h2 { margin: 0 0 .55rem; color: #34445b; font-size: .9rem; }
+  .before-after-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; }
+  .change-card { min-width: 0; padding: .65rem .75rem; border: 1px solid #e4c5b8; border-radius: .4rem; background: #fff9f6; }
+  .change-card--after { border-color: #b8d7c8; background: #f5faf7; }
+  .change-card > header { display: flex; align-items: baseline; gap: .55rem; padding-bottom: .35rem; border-bottom: 1px solid #ead9d2; }
+  .change-card--after > header { border-color: #d7e7de; }
+  .change-card > header span { color: #bd6544; font: 700 .52rem/1 var(--mono); letter-spacing: .08em; }
+  .change-card--after > header span { color: #28785f; }
+  .change-card > header strong { color: #3f4d60; font-size: .7rem; }
+  .change-card > p { margin: .35rem 0 .25rem; color: #59687c; font-size: .62rem; font-weight: 700; }
+  .change-card ol { display: grid; grid-template-columns: 1fr 1fr; column-gap: .8rem; row-gap: .2rem; margin: 0; padding-left: 1rem; color: #606f82; font-size: .59rem; line-height: 1.45; }
+  .change-card li::marker { color: #ca795d; font: 700 .48rem/1 var(--mono); }
+  .change-card--after li::marker { color: #3b8a6b; }
+  .change-card code { color: #22775e; font-size: .95em; }
+  .change-card > footer { margin-top: .4rem; padding-top: .35rem; border-top: 1px solid #ead9d2; color: #98543e; font-size: .59rem; font-weight: 700; }
+  .change-card--after > footer { border-color: #d7e7de; color: #28785f; }
+  .case-conclusion { padding: .45rem 0 .55rem; border-top: 1px solid #cdd7e1; }
+  .case-conclusion h2 { margin: 0; color: #172033; font-size: 1rem; }
+  .case-conclusion h2 em { color: #2463c5; font-style: normal; }
+  .case-conclusion p { margin: .2rem 0 0; color: #5f6f84; font-size: .63rem; line-height: 1.5; }
+  .next-page-disabled { display: inline-flex; align-items: center; gap: .45rem; padding: 0; border: 0; color: #a4adba; background: transparent; font: 700 .68rem/1 var(--sans); cursor: not-allowed; }
+  .next-page-disabled b { color: #a4adba; font: 700 .95rem/1 var(--mono); }
+
+  @keyframes rule-enter { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  @media (max-width: 900px) {
+    .extensibility-page { grid-template-rows: auto; align-content: normal; }
+    .extensibility-heading { align-items: flex-start; flex-direction: column; }
+    .extensibility-demo { grid-template-columns: 1fr; }
+    .demo-relation { min-height: 2.5rem; flex-direction: row; }
+    .demo-relation i { transform: rotate(90deg); }
+    .before-after-grid { grid-template-columns: 1fr; }
+    .case-conclusion { margin-top: .8rem; }
+  }
+  @media (max-width: 600px) {
+    .extensibility-heading h1 { font-size: clamp(1.9rem, 8.8vw, 2.8rem); }
+    .engine-steps { grid-template-columns: 1fr 1fr; }
+    .change-card ol { grid-template-columns: 1fr; row-gap: .25rem; }
+    .declared-rules li { grid-template-columns: auto minmax(0, 1fr); }
+    .declared-rules small { grid-column: 2; text-align: left; }
+    .simulation-note { line-height: 1.55; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .extensibility-page *, .extensibility-page *::before, .extensibility-page *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+  }
+</style>

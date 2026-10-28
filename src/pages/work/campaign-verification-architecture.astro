@@ -1,0 +1,94 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout
+  title="案件商業規則驗證設計 — 可擴充驗證架構 — Thomas Sak"
+  description="以 CampaignVerification 為例，了解 Term Attribute、Reflection 與共用 Verification 基底的關係。"
+>
+  <main class="verification-case verification-case--architecture">
+    <header class="verification-topbar">
+      <a href={base}><span aria-hidden="true">←</span> 首頁</a>
+      <span>BACKEND ENGINEERING / CASE 03</span>
+      <span class="verification-count">03 <i /> 04</span>
+    </header>
+
+    <section class="verification-architecture-heading" aria-labelledby="verification-architecture-title">
+      <p class="verification-kicker">03 · CURRENT VERIFICATION DESIGN</p>
+      <h1 id="verification-architecture-title">驗證規則獨立定義，<em>執行機制統一管理。</em></h1>
+      <p>以 PHP 8 Attribute 標記驗證規則，再由共用基底透過 Reflection 掃描並執行。Attribute 提供規則標記，實際的發現與執行由驗證器負責。</p>
+    </section>
+
+    <section class="verification-layer-section" aria-labelledby="verification-static-title">
+      <header class="verification-layer-heading">
+        <span>01 / 類別結構 — STATIC STRUCTURE</span>
+        <p id="verification-static-title">規則屬於情境類別；探索與執行機制由基底共用。</p>
+      </header>
+
+      <div class="verification-layer-diagram">
+        <article class="verification-layer-card verification-layer-card--scenario">
+          <header><span>SCENARIO RULES</span><strong>CampaignVerification</strong><small>案件建立／更新資料檢查</small></header>
+          <pre aria-label="CampaignVerification 的實際類別與規則方法，省略方法內容"><code><span class="code-muted">final class </span><span class="code-class">CampaignVerification</span>
+    <span class="code-muted">extends </span><span class="code-base">Verification</span>
+&#123;
+    <span class="code-attribute">#[Term]</span>
+    <span class="code-muted">protected function </span><span class="code-method">is_tax_difference_reasonable</span>() &#123; /* … */ &#125;
+
+    <span class="code-attribute">#[Term]</span>
+    <span class="code-muted">protected function </span><span class="code-method">is_cue_month_available</span>() &#123; /* … */ &#125;
+
+    <span class="code-attribute">#[Term]</span>
+    <span class="code-muted">protected function </span><span class="code-method">is_cue_budget_balanced</span>() &#123; /* … */ &#125;
+&#125;</code></pre>
+          <footer><span class="attribute-key">#[Term]</span> 標記要納入執行的驗證方法</footer>
+        </article>
+
+        <div class="verification-inheritance" aria-label="CampaignVerification 繼承 Verification"><span>INHERITS</span><strong>extends</strong><b aria-hidden="true">→</b><small>繼承關係</small></div>
+
+        <article class="verification-layer-card verification-layer-card--engine">
+          <header><span>SHARED EXECUTOR</span><strong>Verification</strong><small>共用規則探索與執行</small></header>
+          <ol class="engine-responsibilities">
+            <li><b>01</b><div><strong>Reflection 掃描方法</strong><code>ReflectionObject($this)</code></div></li>
+            <li><b>02</b><div><strong>收集帶有 #[Term] 的規則</strong><span>Attribute 提供 metadata 標記</span></div></li>
+            <li><b>03</b><div><strong>由 run() 統一呼叫</strong><span>逐一執行收集到的方法</span></div></li>
+          </ol>
+        </article>
+      </div>
+      <p class="verification-code-note">程式片段省略方法內容；方法名稱取自專案現有的 CampaignVerification。</p>
+    </section>
+
+    <section class="verification-runtime-section" aria-labelledby="verification-runtime-title">
+      <header class="verification-layer-heading">
+        <span>02 / 執行流程 — RUNTIME FLOW</span>
+        <p id="verification-runtime-title">Reflection 掃描發生在每次呼叫 run() 時。</p>
+      </header>
+
+      <div class="verification-runtime-flow">
+        <article><span>CALLER</span><strong>CampaignController</strong><small>傳入案件資料</small></article>
+        <b aria-hidden="true">→</b>
+        <article><span>INSTANCE</span><strong>CampaignVerification</strong><code>init($payload)-&gt;run()</code></article>
+        <b aria-hidden="true">→</b>
+        <article class="runtime-engine-node"><span>INHERITED METHOD</span><strong>Verification::run()</strong><small>呼叫 get_rule_list()</small></article>
+        <b aria-hidden="true">→</b>
+        <article class="runtime-reflection-node"><span>REFLECTION</span><strong>尋找 #[Term]</strong><small>取得符合條件的方法</small></article>
+        <b aria-hidden="true">→</b>
+        <article class="runtime-execution-node"><span>EXECUTION</span><strong>逐一執行規則</strong><small>順序依 Reflection 回傳，未另行排序</small></article>
+      </div>
+
+      <div class="verification-runtime-results">
+        <span class="runtime-result-label">執行結果</span>
+        <div class="runtime-result runtime-result--pass"><b>✓</b><strong>規則全部完成</strong><i>run() 回傳 true</i><span>繼續後續程式</span></div>
+        <div class="runtime-result runtime-result--fail"><b>!</b><strong>規則拋出 ServiceException</strong><i>停止後續規則</i><span>交由上層錯誤流程處理</span></div>
+      </div>
+    </section>
+
+    <aside class="verification-extension-note">
+      <b aria-hidden="true">＋</b>
+      <div><strong>新增規則，體現開放封閉原則（OCP）。</strong><p>在對應驗證類別加入帶有 <code>#[Term]</code> 的方法，就能透過既有機制納入執行，不必修改共用執行器；新增全新情境時，仍需由呼叫端選擇對應的驗證類別。</p></div>
+    </aside>
+
+    <footer class="verification-next"><a href={`${base}work/campaign-verification-design/`}><b aria-hidden="true">←</b> 上一頁</a><span>現有架構 <b aria-hidden="true">03 / 04</b></span><a href={`${base}work/campaign-verification-interactive/`}>下一頁 <b aria-hidden="true">→</b></a></footer>
+  </main>
+</BaseLayout>

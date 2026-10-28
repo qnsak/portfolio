@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout
+  title="自然語言需求與傳統搜尋的落差 — LLM 產品搜尋案例"
+  description="說明使用者如何描述產品需求，以及既有欄位式搜尋在需求理解上的限制。"
+>
+  <main class="llm-case llm-case--problem">
+    <header class="llm-topbar">
+      <a href={base}><span aria-hidden="true">←</span> 首頁</a>
+      <span>AI ENGINEERING / CASE 01</span>
+      <span class="llm-count">02 <i /> 04</span>
+    </header>
+
+    <section class="llm-problem-heading" aria-labelledby="llm-problem-title">
+      <p class="llm-kicker"><span aria-hidden="true">◇</span> 02 / SEARCH GAP</p>
+      <h1 id="llm-problem-title">使用者描述的是<span>需求</span>，傳統搜尋要求的是<span>欄位</span></h1>
+      <p>使用者可能知道要解決什麼問題，卻不熟悉產品名稱、分類或網站上的條件欄位；當需求包含多個條件與排除項目，逐一操作篩選也不夠直接。</p>
+    </section>
+
+    <section class="llm-gap-diagram" aria-label="自然語言需求與傳統欄位搜尋的對照">
+      <div class="llm-gap-column llm-gap-column--user">
+        <header><span class="llm-gap-icon" aria-hidden="true">“</span><div><small>USER INTENT</small><h2>使用者想怎麼找</h2></div></header>
+        <article>
+          <span class="llm-gap-index">01</span>
+          <div><strong>從問題出發</strong><p>「想減少護理師巡房的負擔」</p><small>知道想改善的情境，不一定知道產品名稱。</small></div>
+        </article>
+        <article>
+          <span class="llm-gap-index">02</span>
+          <div><strong>一句話包含多種條件</strong><p>「找自動化配藥櫃，想經銷代理，不要某家公司」</p><small>需求、合作方式與排除條件一起出現。</small></div>
+        </article>
+      </div>
+
+      <div class="llm-gap-connector" aria-hidden="true"><span>轉成搜尋條件</span><b>→</b></div>
+
+      <div class="llm-gap-column llm-gap-column--search">
+        <header><span class="llm-gap-icon" aria-hidden="true">⌕</span><div><small>FORM-BASED SEARCH</small><h2>既有網站怎麼找</h2></div></header>
+        <article>
+          <span class="llm-gap-index">01</span>
+          <div><strong>先知道產品分類</strong><p>從分類選單逐層選擇</p><small>不熟悉網站分類時，不容易找到正確入口。</small></div>
+        </article>
+        <article>
+          <span class="llm-gap-index">02</span>
+          <div><strong>在不同欄位分別設定</strong><p>分類、合作方式、品牌／公司</p><small>條件要拆開操作，也難以直接表達排除對象。</small></div>
+        </article>
+      </div>
+
+      <div class="llm-gap-conclusion">
+        <span>設計挑戰</span>
+        <strong>如何理解自然語言，同時讓搜尋結果仍來自既有產品資料？</strong>
+      </div>
+    </section>
+
+    <footer class="llm-next">
+      <a href={`${base}work/llm-product-search/`}><b aria-hidden="true">←</b> 上一頁</a>
+      <span class="llm-next-hint">下一步：讓 LLM 理解需求，並交由既有搜尋流程取回產品</span>
+      <a href={`${base}work/llm-product-search-demo/`}>下一頁 <b aria-hidden="true">→</b></a>
+    </footer>
+  </main>
+</BaseLayout>

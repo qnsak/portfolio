@@ -1,0 +1,86 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout
+  title="LLM 搜尋架構與工程取捨 — 案例 03"
+  description="說明既有產品資料如何準備為語意搜尋，並由 LLM 解析需求、既有搜尋服務取回結果。"
+>
+  <main class="llm-case llm-case--design">
+    <header class="llm-topbar">
+      <a href={base}><span aria-hidden="true">←</span> 首頁</a>
+      <span>AI ENGINEERING / CASE 01</span>
+      <span class="llm-count">04 <i /> 04</span>
+    </header>
+
+    <section class="llm-design-heading" aria-labelledby="llm-design-title">
+      <p class="llm-kicker"><span aria-hidden="true">◇</span> 04 / SYSTEM DESIGN</p>
+      <h1 id="llm-design-title">讓 AI 理解需求，<em>讓搜尋系統決定結果</em></h1>
+      <p>LLM 將自然語言整理成受限的搜尋條件；產品是否符合需求，仍由既有資料與搜尋流程判斷。</p>
+    </section>
+
+    <section class="llm-architecture" aria-label="LLM 產品搜尋架構概覽">
+      <div class="llm-architecture-title">
+        <div><span>REQUEST FLOW</span><h2>一次搜尋的資料流</h2></div>
+        <small>概念架構</small>
+      </div>
+      <div class="llm-flow">
+        <article class="llm-flow-step llm-flow-step--input">
+          <span class="llm-step-number">01</span><small>INPUT</small>
+          <strong>自然語言需求</strong>
+          <p>使用者描述問題、偏好與排除條件</p>
+        </article>
+        <b aria-hidden="true">→</b>
+        <article class="llm-flow-step llm-flow-step--llm">
+          <span class="llm-step-number">02</span><small>LLM</small>
+          <strong>解析成結構化條件</strong>
+          <p>從既有詞彙中辨識類別、公司、合作方式與關鍵字</p>
+        </article>
+        <b aria-hidden="true">→</b>
+        <article class="llm-flow-step llm-flow-step--search">
+          <span class="llm-step-number">03</span><small>SEARCH</small>
+          <strong>既有搜尋服務</strong>
+          <p>條件篩選、關鍵字與語意相似度混合查詢</p>
+        </article>
+        <b aria-hidden="true">→</b>
+        <article class="llm-flow-step llm-flow-step--result">
+          <span class="llm-step-number">04</span><small>RESULT</small>
+          <strong>產品列表</strong>
+          <p>沿用既有 API 與前端列表呈現搜尋結果</p>
+        </article>
+      </div>
+      <div class="llm-data-prep">
+        <div><span>OFFLINE PREPARATION</span><strong>產品資料整理</strong><p>產品描述與標籤 → Gemini Embedding → PostgreSQL / pgvector</p></div>
+        <b aria-hidden="true">└──────────────────────────────▶</b>
+        <span>提供語意搜尋資料</span>
+      </div>
+    </section>
+
+    <section class="llm-design-notes" aria-label="實作成果與上線考量">
+      <article class="llm-outcome">
+        <header><span>IMPLEMENTED</span><h2>實作成果</h2></header>
+        <ul>
+          <li><b>01</b><span><strong>自然語言轉搜尋條件</strong><small>支援組合需求、條件補充與排除項目。</small></span></li>
+          <li><b>02</b><span><strong>結果依據既有產品資料</strong><small>使用結構條件與語意搜尋找回產品。</small></span></li>
+          <li><b>03</b><span><strong>保留使用者檢視與修正</strong><small>搜尋條件可理解，並能回到原有列表瀏覽。</small></span></li>
+        </ul>
+      </article>
+      <article class="llm-operations">
+        <header><span>PRODUCTION CONSIDERATIONS</span><h2>正式上線考量</h2></header>
+        <div class="llm-operation-grid">
+          <div><strong>成本與穩定性</strong><p>外部模型呼叫會帶來費用、延遲與失敗情況。</p></div>
+          <div><strong>資料同步</strong><p>產品內容異動時，需同步更新向量與詞彙資料。</p></div>
+          <div><strong>安全與監控</strong><p>需處理不當輸入、大量請求與模型理解偏差。</p></div>
+        </div>
+      </article>
+    </section>
+
+    <footer class="llm-final-nav">
+      <a href={`${base}work/llm-product-search-demo/`}><b aria-hidden="true">←</b> 上一頁</a>
+      <strong>讓自然語言成為入口，讓既有資料成為搜尋依據。</strong>
+      <span aria-disabled="true">下一頁 <b aria-hidden="true">→</b></span>
+    </footer>
+  </main>
+</BaseLayout>

@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout
+  title="在既有產品服務導入 LLM 搜尋 — Thomas Sak"
+  description="以醫療產品平台為例，介紹既有關鍵字與條件搜尋的功能背景，以及導入自然語言搜尋的需求。"
+>
+  <main class="llm-case">
+    <header class="llm-topbar">
+      <a href={base}><span aria-hidden="true">←</span> 首頁</a>
+      <span>AI ENGINEERING / CASE 01</span>
+      <span class="llm-count">01 <i /> 04</span>
+    </header>
+
+    <section class="llm-intro" aria-labelledby="llm-title">
+      <div class="llm-copy">
+        <p class="llm-kicker"><span aria-hidden="true">◇</span> EXISTING PRODUCT SEARCH</p>
+        <h1 id="llm-title">在既有產品服務中，<em>導入 LLM 搜尋</em></h1>
+        <p class="llm-lede">以醫療產品平台為例，保留原有產品資料與搜尋流程，新增自然語言理解，讓使用者能從需求描述開始找產品。</p>
+        <div class="llm-question">
+          <span>案例背景</span>
+          <strong>平台已有搜尋功能；新的挑戰是理解使用者想解決的問題。</strong>
+        </div>
+      </div>
+
+      <div class="llm-search-visual" aria-label="既有產品搜尋功能示意：關鍵字查詢、條件篩選、產品列表">
+        <div class="llm-visual-heading"><span>既有產品搜尋</span><span>PRODUCT DISCOVERY</span></div>
+        <div class="llm-search-box">
+          <span class="llm-search-icon" aria-hidden="true">⌕</span>
+          <span>輸入產品名稱或關鍵字</span>
+          <b>搜尋</b>
+        </div>
+        <div class="llm-filter-block">
+          <div><span>產品類別</span><b>選擇類別</b></div>
+          <div><span>品牌／公司</span><b>選擇品牌</b></div>
+          <div><span>合作方式</span><b>選擇條件</b></div>
+        </div>
+        <div class="llm-results-heading"><strong>產品列表</strong><span>依條件顯示搜尋結果</span></div>
+        <div class="llm-product-list" aria-hidden="true">
+          <div class="llm-product-row"><i></i><span><b></b><b></b></span><small>產品</small></div>
+          <div class="llm-product-row"><i></i><span><b></b><b></b></span><small>產品</small></div>
+          <div class="llm-product-row"><i></i><span><b></b><b></b></span><small>產品</small></div>
+        </div>
+        <div class="llm-visual-caption"><span>01 關鍵字查詢</span><i>→</i><span>02 條件篩選</span><i>→</i><span>03 產品列表</span></div>
+      </div>
+    </section>
+
+    <section class="llm-context" aria-label="目前搜尋方式">
+      <article><span>01 / KEYWORD</span><strong>以名稱或關鍵字查詢</strong><p>適合已經知道產品名稱或常用詞的情境。</p></article>
+      <article><span>02 / FILTERS</span><strong>依產品屬性縮小範圍</strong><p>透過類別、品牌與合作方式等條件篩選。</p></article>
+      <article><span>03 / RESULTS</span><strong>在既有列表瀏覽產品</strong><p>沿用平台既有的產品資料與結果呈現。</p></article>
+    </section>
+
+    <footer class="llm-next">
+      <span><b aria-hidden="true">↳</b> 下一步：使用者的需求描述，為什麼難以用傳統搜尋表達？</span>
+      <a href={`${base}work/llm-product-search-problem/`}>下一頁 <b aria-hidden="true">→</b></a>
+    </footer>
+  </main>
+</BaseLayout>
