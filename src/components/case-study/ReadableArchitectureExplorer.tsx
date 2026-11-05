@@ -240,7 +240,7 @@ export default function ReadableArchitectureExplorer() {
     const active = edge.source === selectedId || edge.target === selectedId;
     const isRule = edge.data?.kind === 'rule';
     const activeColor = isRule ? '#16806f' : '#2669ae';
-    return { ...edge, className: `${active ? 'is-related' : 'is-muted'} ${isRule ? 'is-rule' : 'is-flow'}`, type: 'smoothstep', markerEnd: { type: MarkerType.ArrowClosed, color: active ? activeColor : '#9caabd' }, style: { stroke: active ? activeColor : '#9caabd', strokeWidth: active ? 2.4 : 1.5, strokeDasharray: isRule ? '7 6' : undefined }, labelStyle: { fill: active ? activeColor : '#8290a3', fontSize: 14, fontWeight: 700 }, labelBgStyle: { fill: '#fffdf7', fillOpacity: .95 } };
+    return { ...edge, className: `${active ? 'is-related' : 'is-muted'} ${isRule ? 'is-rule' : 'is-flow'}`, type: 'smoothstep', markerEnd: { type: MarkerType.ArrowClosed, color: active ? activeColor : '#9caabd' }, style: { stroke: active ? activeColor : '#9caabd', strokeWidth: active ? 2.4 : 1.5, strokeDasharray: isRule ? '7 6' : undefined }, labelStyle: { fill: active ? activeColor : '#8290a3', fontSize: 18, fontWeight: 700 }, labelBgStyle: { fill: '#fffdf7', fillOpacity: .95 } };
   }), [selectedId]);
 
   const focusNode = (nodeId: string) => {
